@@ -15,7 +15,7 @@ class MyGame(arcade.Window):
     def setup(self):
         # Set up your game here
         SPRITE_SCALING_COIN = 1
-        self.iss = arcade.Sprite("iss.png", SPRITE_SCALING_COIN)
+        self.iss = arcade.Sprite("images/iss2.jpg", SPRITE_SCALING_COIN)
         self.iss.center_x = 300 # Starting position
         self.iss.center_y = 300
 
