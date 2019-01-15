@@ -19,9 +19,7 @@ class DockingGame(arcade.Window):
 
     def setup(self):
         # Set up your game here
-        self.ats = ScalingSprite("./game/images/ats.png", SPRITE_SCALING,
-                                 # center_x=SCREEN_WIDTH / 2, center_y=SCREEN_HEIGHT/2)
-                                center_x=0, center_y=0)
+        self.ats = ScalingSprite(self, "./game/images/ats.png", SPRITE_SCALING)
 
     def on_draw(self):
         """ Render the screen. """
