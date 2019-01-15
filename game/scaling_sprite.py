@@ -1,6 +1,6 @@
 from arcade.sprite import Sprite
 
-SCALE_SPEED = 0.00005
+
 class ScalingSprite(Sprite):
     """
     Class extends Sprite class.
@@ -14,19 +14,17 @@ class ScalingSprite(Sprite):
                  repeat_count_x=1, repeat_count_y=1):
         super().__init__(filename, scale, image_x, image_y, image_width, image_height, center_x, center_y,
                          repeat_count_x, repeat_count_y)
-        self.change_scale = 2.5 * SCALE_SPEED
+        self.velocity = [0, 0, 0]
 
-    def forward_push(self):
-        """
-        Increase motion to the forward direction.
-        """
-        self.change_scale = self.change_scale + SCALE_SPEED
+    def _get_change_z(self) -> float:
+        """ Get the velocity in the for-aft axis of the sprite. """
+        return self.velocity[2]
 
-    def backward_push(self):
-        """
-        Increase motion to the backward direction.
-        """
-        self.change_scale = self.change_scale - SCALE_SPEED
+    def _set_change_z(self, new_value: float):
+        """ Set the velocity in the for-aft axis of the sprite. """
+        self.velocity[2] = new_value
+
+    change_z = property(_get_change_z, _set_change_z)
 
     def update_scale(self):
         """
@@ -41,6 +39,6 @@ class ScalingSprite(Sprite):
         """
         self.center_x += self.change_x
         self.center_y += self.change_y
+        self.scale += self.change_z
         self.angle += self.change_angle
-        self.scale += self.change_scale
         self.update_scale()

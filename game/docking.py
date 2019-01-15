@@ -2,21 +2,10 @@ import arcade
 from game.scaling_sprite import ScalingSprite
 from game.visor import Visor
 
-'''
-TO DO list:
-- set it fullscreen
-- set a end game logig when the ATS is correctly docked
-- set a reinitialisation when the ATS is crashed
-- add perturbation in order to make sure the ATS doesn't go straight
-
-BONUS:
-- set difficulties levels
-- 
-'''
-
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SPRITE_SCALING = 0.2
+SPRITE_SCALING = 0.1
+
 
 class DockingGame(arcade.Window):
     """ Main application class. """
@@ -30,9 +19,9 @@ class DockingGame(arcade.Window):
 
     def setup(self):
         # Set up your game here
-        self.ats = ScalingSprite("../images/ats.png", SPRITE_SCALING,
-                                 center_x=SCREEN_WIDTH / 2, center_y=SCREEN_HEIGHT/2)
-        self.visor = Visor(SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.ats = ScalingSprite("./game/images/ats.png", SPRITE_SCALING,
+                                 # center_x=SCREEN_WIDTH / 2, center_y=SCREEN_HEIGHT/2)
+                                center_x=0, center_y=0)
 
     def on_draw(self):
         """ Render the screen. """
@@ -41,21 +30,23 @@ class DockingGame(arcade.Window):
         self.visor.draw()
 
     def on_key_press(self, key, modifiers):
-        delta_speed = 0.05
-        v_x = self.ats._get_change_x()
-        v_y = self.ats._get_change_y()
+        xy_delta_speed = 0.05
+        z_delta_speed = 0.00005
+        v_x = self.ats.change_x
+        v_y = self.ats.change_y
+
         if key == arcade.key.UP:
-            self.ats.change_y = v_y + delta_speed
+            self.ats.change_y = self.ats.change_y + xy_delta_speed
         elif key == arcade.key.DOWN:
-            self.ats.change_y = v_y - delta_speed
+            self.ats.change_y = self.ats.change_y - xy_delta_speed
         elif key == arcade.key.LEFT:
-            self.ats.change_x = v_x - delta_speed
+            self.ats.change_x = self.ats.change_x - xy_delta_speed
         elif key == arcade.key.RIGHT:
-            self.ats.change_x = v_x + delta_speed
+            self.ats.change_x = self.ats.change_x + xy_delta_speed
         elif key == arcade.key.A:
-            self.ats.forward_push()
+            self.ats.change_z = self.ats.change_z + z_delta_speed
         elif key == arcade.key.Q:
-            self.ats.backward_push()
+            self.ats.change_z = self.ats.change_z - z_delta_speed
         elif key == arcade.key.F:
             # User hits f. Flip between full and not full screen.
             self.set_fullscreen(not self.fullscreen)
@@ -68,12 +59,4 @@ class DockingGame(arcade.Window):
     def update(self, delta_time):
         """ All the logic to move, and the game logic goes here. """
         self.ats.update()
-
-def main():
-    game = DockingGame(SCREEN_WIDTH, SCREEN_HEIGHT, fullscreen=True)
-    game.setup()
-    arcade.run()
-
-
-if __name__ == "__main__":
-    main()
+        self.visor = Visor(self.width, self.height)
