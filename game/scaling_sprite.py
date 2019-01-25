@@ -29,6 +29,7 @@ class ScalingSprite(Sprite):
         self.init_scale = scale
         super().__init__(filename, scale, image_x, image_y, image_width, image_height, self.init_pos_x, self.init_pos_y,
                          repeat_count_x, repeat_count_y)
+        self.initialized = True
         self.velocity = [0, 0, 0]
         self.isInitialising = False
         self.isDock = False
@@ -55,11 +56,17 @@ class ScalingSprite(Sprite):
         Update the sprite.
         """
         self.checkPosition()
+        self.update_forward_motion()
         self.center_x += self.change_x
         self.center_y += self.change_y
         self.scale += self.change_z
         self.angle += self.change_angle
         self.update_scale()
+
+    def update_forward_motion(self):
+        if self.initialized and (self.change_x != 0 or self.change_y != 0):
+            self.initialized = False
+            self.change_z = 0.0001
 
     def checkPosition(self):
         if self.isInitialising:
@@ -67,6 +74,7 @@ class ScalingSprite(Sprite):
                     and (self.center_y < self.init_pos_y + XY_TOL) and (self.center_y > self.init_pos_y - XY_TOL)
                     and (self.scale < self.init_scale + SCALE_TOL)):
                 self.isInitialising = False
+                self.initialized = True
                 self.stop()
         if ((self.center_x < self.docking_pos_x + XY_TOL) and (self.center_x > self.docking_pos_x - XY_TOL)
                 and (self.center_y < self.docking_pos_y + XY_TOL) and (self.center_y > self.docking_pos_y - XY_TOL)

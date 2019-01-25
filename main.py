@@ -14,6 +14,6 @@ BONUS:
 '''
 
 
-game = DockingGame(fullscreen=False)
+game = DockingGame(fullscreen=True)
 game.setup()
 arcade.run()

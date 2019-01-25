@@ -41,11 +41,11 @@ class DockingGame(arcade.Window):
         _, _, _, initialising, dock = self.atv.getProperties()
         if initialising:
             arcade.draw_text("INITIALIZING", self.width/2, self.height / 2,
-                             arcade.color.RED, 100, width=200, align='center',
+                             arcade.color.RED, 50, align='center',
                              anchor_x='center', anchor_y='center', rotation=0)
         if dock:
             arcade.draw_text("DOCKING COMPLETE", self.width/2, self.height / 2,
-                             arcade.color.GREEN, 100, width=200, align='center',
+                             arcade.color.GREEN, 50, align='center',
                              anchor_x='center', anchor_y='center', rotation=0)
 
     def on_key_press(self, key, modifiers):
@@ -60,13 +60,14 @@ class DockingGame(arcade.Window):
             self.atv.change_x = self.atv.change_x - xy_delta_speed
         elif key == arcade.key.RIGHT:
             self.atv.change_x = self.atv.change_x + xy_delta_speed
-        elif key == arcade.key.A:
-            self.atv.change_z = self.atv.change_z + z_delta_speed
-        elif key == arcade.key.Q:
-            self.atv.change_z = self.atv.change_z - z_delta_speed
+        # elif key == arcade.key.A:
+        #     self.atv.change_z = self.atv.change_z + z_delta_speed
+        # elif key == arcade.key.Q:
+        #     self.atv.change_z = self.atv.change_z - z_delta_speed
         elif key == arcade.key.F:
             # User hits f. Flip between full and not full screen.
             self.set_fullscreen(not self.fullscreen)
+            # self.set_fullscreen(not self.fullscreen, width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 
             # Get the window coordinates. Match viewport to window coordinates
             # so there is a one-to-one mapping.
