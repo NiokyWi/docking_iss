@@ -1,5 +1,5 @@
 import arcade
-from game.docking import DockingGame
+from game.game import Game
 
 '''
 TO DO list:
@@ -14,6 +14,6 @@ BONUS:
 '''
 
 
-game = DockingGame(fullscreen=True)
+game = Game(fullscreen=False)
 game.setup()
 arcade.run()
