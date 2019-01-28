@@ -14,11 +14,11 @@ class ATV(ScalingSprite):
 
     @property
     def target_pos_x(self):
-        return self.center_x + TARGET_IMG_POS_X / ATV_IMG_WIDTH * self.scale
+        return self.center_x
 
     @property
     def target_pos_y(self):
-        return self.center_y + TARGET_IMG_POS_Y / ATV_IMG_HEIGHT * self.scale
+        return self.center_y
 
     @property
     def target_radius(self):

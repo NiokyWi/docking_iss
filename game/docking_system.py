@@ -23,7 +23,7 @@ class DockingSystem:
 
     def update(self):
         self.atv_approach_control()
-        if self.is_on_target():
+        if self.is_target_hit():
             self.dock()
         elif self.is_initialising:
             if self.is_initialized():
@@ -38,12 +38,12 @@ class DockingSystem:
             self.is_initialised = False
             self.atv.change_z = 0.001
 
-    def within_target(self):
+    def is_on_target(self):
         distance_to_target = self.distance_to_target(self.window.width / 2, self.window.height / 2)
         return distance_to_target < self.atv.target_radius
 
-    def is_on_target(self):
-        return self.within_target() and (self.atv.scale > DOCKING_SCALE)
+    def is_target_hit(self):
+        return self.is_on_target() and (self.atv.scale > DOCKING_SCALE)
 
     def is_initialized(self):
         return abs(self.atv.center_x - self.init_pos_x) < XY_TOL \
