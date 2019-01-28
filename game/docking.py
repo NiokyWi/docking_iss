@@ -1,5 +1,5 @@
 import arcade
-from game.scaling_sprite import ScalingSprite
+from .atv import ATV
 from game.visor import Visor
 
 SCREEN_WIDTH = 800
@@ -13,14 +13,14 @@ class DockingGame(arcade.Window):
     def __init__(self, width: float = 800, height: float = 600, title: str = 'Arcade Window', fullscreen: bool = False,
                  resizable: bool = False):
         super().__init__(width, height, title, fullscreen, resizable)
-        arcade.set_background_color(arcade.color.AMAZON)
+        arcade.set_background_color(arcade.color.BLACK)
         self.atv = None
         self.visor = None
         self.debug = True
 
     def setup(self):
         # Set up your game here
-        self.atv = ScalingSprite(self, "./game/images/ats.png", scale=SPRITE_SCALING)
+        self.atv = ATV(self, "./game/images/ats.png", scale=SPRITE_SCALING)
 
     def on_draw(self):
         """ Render the screen. """

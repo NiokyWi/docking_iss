@@ -1,16 +1,5 @@
 from arcade.sprite import Sprite
 
-ATV_IMG_WIDTH = 8822
-ATV_IMG_HEIGHT = 5881
-TARGET_IMG_POS_X = 4832
-TARGET_IMG_POS_Y = 2391
-XY_TOL = 10
-SCALE_TOL = 0.01
-DOCKING_SCALE = 1
-LIMIT_POS_X = 0
-LIMIT_POS_Y = 0
-INIT_DELTA_TIME = 200
-
 class ScalingSprite(Sprite):
     """
     Class extends Sprite class.
@@ -68,33 +57,3 @@ class ScalingSprite(Sprite):
             self.initialized = False
             self.change_z = 0.0001
 
-    def checkPosition(self):
-        if self.isInitialising:
-            if ((self.center_x < self.init_pos_x + XY_TOL) and (self.center_x > self.init_pos_x - XY_TOL)
-                    and (self.center_y < self.init_pos_y + XY_TOL) and (self.center_y > self.init_pos_y - XY_TOL)
-                    and (self.scale < self.init_scale + SCALE_TOL)):
-                self.isInitialising = False
-                self.initialized = True
-                self.stop()
-        if ((self.center_x < self.docking_pos_x + XY_TOL) and (self.center_x > self.docking_pos_x - XY_TOL)
-                and (self.center_y < self.docking_pos_y + XY_TOL) and (self.center_y > self.docking_pos_y - XY_TOL)
-                and (self.scale > DOCKING_SCALE)):
-            self.isDock = True
-        elif (self.center_x < 0) or (self.center_x > self.width) \
-                or (self.center_y < 0) or (self.center_y > self.height) \
-                or (self.scale > DOCKING_SCALE):
-            self.reinitialisation()
-        if self.isDock:
-            self.stop()
-
-    def stop(self):
-        self.change_x, self.change_y, self.change_z = 0, 0, 0
-
-    def reinitialisation(self):
-        self.isInitialising = True
-        self.change_x = (self.init_pos_x - self.center_x) / INIT_DELTA_TIME
-        self.change_y = (self.init_pos_y - self.center_y) / INIT_DELTA_TIME
-        self.change_z = (self.init_scale - self.scale) / INIT_DELTA_TIME
-
-    def getProperties(self):
-        return self.scale, self.position, self.velocity, self.isInitialising, self.isDock
