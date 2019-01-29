@@ -1,9 +1,9 @@
 from .scaling_sprite import ScalingSprite
 
-ATV_IMG_WIDTH = 8822
-ATV_IMG_HEIGHT = 5881
-TARGET_IMG_POS_X = 4832
-TARGET_IMG_POS_Y = 2391
+# ATV_IMG_WIDTH = 8822
+# ATV_IMG_HEIGHT = 5881
+# TARGET_IMG_POS_X = 4832
+# TARGET_IMG_POS_Y = 2391
 
 
 class ATV(ScalingSprite):
@@ -23,11 +23,3 @@ class ATV(ScalingSprite):
     @property
     def target_radius(self):
         return 80 * self.scale
-
-    def stop(self):
-        self.change_x, self.change_y, self.change_z = 0, 0, 0
-
-    def reinitialisation(self, scale, x, y, time):
-        self.change_x = (x - self.center_x) / time
-        self.change_y = (y - self.center_y) / time
-        self.change_z = (scale - self.scale) / time

@@ -3,20 +3,22 @@ from .atv import ATV
 
 import numpy as np
 
-XY_TOL = 10
-SCALE_TOL = 0.01
+XY_TOL = 20
 DOCKING_SCALE = 1.5
-INIT_DELTA_TIME = 500
 
 
 class DockingSystem:
 
-    def __init__(self, arcade_window: arcade.Window, atv: ATV, init_scale: float = 1, init_pos_x: float = 0, init_pos_y: float = 0) -> None:
+    def __init__(self, arcade_window: arcade.Window, atv: ATV,
+                 init_scale: float = 1, init_pos_x: float = 0, init_pos_y: float = 0,
+                 scale_speed: float = 0.001, init_delta_time: float = 10) -> None:
         self.window = arcade_window
         self.atv = atv
         self.init_scale = init_scale
         self.init_pos_x = init_pos_x
         self.init_pos_y = init_pos_y
+        self.scale_speed = scale_speed
+        self.init_delta_time = init_delta_time * 60
         self.is_initialised = True
         self.is_initialising = False
         self.is_docking_complete = False
@@ -29,18 +31,19 @@ class DockingSystem:
             self.dock()
         elif self.outside_window():
             self.is_initialising = True
-            self.atv.reinitialisation(self.init_scale, self.init_pos_x, self.init_pos_y, INIT_DELTA_TIME)
+            self.reinitialisation()
 
     def update_initialisation(self):
         if self.is_initialized():
             self.is_initialising = False
             self.is_initialised = True
-            self.atv.stop()
+            self.atv.with_perspective = True
+            self.stop()
 
     def update_approach(self):
         if self.is_initialised and (self.atv.change_x != 0 or self.atv.change_y != 0):
             self.is_initialised = False
-            self.atv.change_z = 0.001
+            self.atv.change_z = self.scale_speed
 
     def is_on_target(self):
         distance_to_target = self.distance_to_target(self.window.width / 2, self.window.height / 2)
@@ -60,11 +63,20 @@ class DockingSystem:
                or (self.atv.scale > DOCKING_SCALE)
 
     def dock(self):
-        self.atv.stop()
+        self.stop()
         self.is_docking_complete = True
 
     def distance_to_target(self, x, y):
         return np.sqrt((x - self.atv.target_pos_x)**2 + (y - self.atv.target_pos_y)**2)
+
+    def stop(self):
+        self.atv.change_x, self.atv.change_y, self.atv.change_z = 0, 0, 0
+
+    def reinitialisation(self):
+        self.atv.with_perspective = False
+        self.atv.change_z = (self.init_scale - self.atv.scale) / self.init_delta_time
+        self.atv.change_x = (self.init_pos_x - self.atv.center_x) / self.init_delta_time
+        self.atv.change_y = (self.init_pos_y - self.atv.center_y) / self.init_delta_time
 
     def get_properties(self):
         return self.atv.scale, self.atv.position, self.atv.velocity, \

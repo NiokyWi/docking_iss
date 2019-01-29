@@ -1,5 +1,6 @@
 import arcade
 
+
 class Visor:
     """
     Class allow drawing the visor within the screen.

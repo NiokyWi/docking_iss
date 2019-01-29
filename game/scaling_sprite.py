@@ -1,8 +1,4 @@
 from arcade.sprite import Sprite
-import numpy as np
-
-INIT_SCALE = 0.1
-TARGET_RADIUS_PIXELS = 80
 
 
 class ScalingSprite(Sprite):
@@ -13,10 +9,11 @@ class ScalingSprite(Sprite):
 
     """
 
-    def __init__(self, filename: str = None, scale: float = INIT_SCALE, center_x: float = 0,
+    def __init__(self, filename: str = None, scale: float = 0.1, center_x: float = 0,
                  center_y: float = 0):
         super().__init__(filename=filename, scale=scale, center_x=center_x, center_y=center_y)
         self.velocity = [0, 0, 0]
+        self.with_perspective = True
 
     def _get_change_z(self) -> float:
         """ Get the velocity in the for-aft axis of the sprite. """
@@ -41,6 +38,9 @@ class ScalingSprite(Sprite):
         """
         Change sprite scale acting as a 3rd dimension motion.
         """
-        self.scale = self.scale + self.change_z * self.scale
+        if self.with_perspective:
+            self.scale = self.scale + self.change_z * self.scale
+        else:
+            self.scale = self.scale + self.change_z
         self.width = self.texture.width * self.scale
         self.height = self.texture.height * self.scale

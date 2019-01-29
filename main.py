@@ -11,7 +11,11 @@ BONUS:
 - 
 '''
 
+FULLSCREEN = False
+DEBUG_MODE = True
+SCALE_SPEED = 0.001
+INIT_DELTA_TIME = 2
 
-game = Game(fullscreen=False, debug_mode=True)
+game = Game(fullscreen=FULLSCREEN, debug_mode=DEBUG_MODE, scale_speed=SCALE_SPEED, init_delta_time=INIT_DELTA_TIME)
 game.setup()
 arcade.run()

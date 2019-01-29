@@ -1,19 +1,21 @@
 import arcade
 from .atv import ATV
 from .docking_system import DockingSystem
-from game.visor import Visor
+from .visor import Visor
 
-# SCREEN_WIDTH = 800
-# SCREEN_HEIGHT = 600
+DELTA_SPEED = 0.05
+INIT_SCALE = 0.1
 
 
 class Game(arcade.Window):
     """ Main application class. """
 
     def __init__(self, width: float = 800, height: float = 600, title: str = 'Arcade Window', fullscreen: bool = False,
-                 resizable: bool = False, debug_mode=False):
+                 resizable: bool = False, debug_mode=False, scale_speed=0.001, init_delta_time=10):
         super().__init__(width, height, title, fullscreen, resizable)
         arcade.set_background_color(arcade.color.BLACK)
+        self.scale_speed = scale_speed
+        self.init_delta_time = init_delta_time
         self.atv = None
         self.docking_system = None
         self.visor = None
@@ -23,9 +25,10 @@ class Game(arcade.Window):
         # Set up your game here
         init_pos_x = self.width * 0.6
         init_pos_y = self.height * 0.6
-        init_scale = 0.1
+        init_scale = INIT_SCALE
         self.atv = ATV(scale=init_scale, center_x=init_pos_x, center_y=init_pos_y)
-        self.docking_system = DockingSystem(self, self.atv, init_scale, init_pos_x, init_pos_y)
+        self.docking_system = DockingSystem(self, self.atv, init_scale, init_pos_x, init_pos_y, self.scale_speed,
+                                            self.init_delta_time)
         self.visor = Visor(self.width, self.height)
 
     def update(self, delta_time):
@@ -36,10 +39,9 @@ class Game(arcade.Window):
     def on_draw(self):
         """ Render the screen. """
         arcade.start_render()
-        self.atv.draw()
+        # self.atv.draw()
         self.visor.draw()
         self.drawState()
-
         if self.debug:
             self.drawDebug()
 
@@ -68,14 +70,13 @@ class Game(arcade.Window):
                              anchor_x='center', anchor_y='center', rotation=0)
 
     def on_key_press(self, key, modifiers):
-        delta_speed = 0.05
         if key == arcade.key.UP:
-            self.atv.change_y = self.atv.change_y + delta_speed
+            self.atv.change_y = self.atv.change_y + DELTA_SPEED
         elif key == arcade.key.DOWN:
-            self.atv.change_y = self.atv.change_y - delta_speed
+            self.atv.change_y = self.atv.change_y - DELTA_SPEED
         elif key == arcade.key.LEFT:
-            self.atv.change_x = self.atv.change_x - delta_speed
+            self.atv.change_x = self.atv.change_x - DELTA_SPEED
         elif key == arcade.key.RIGHT:
-            self.atv.change_x = self.atv.change_x + delta_speed
+            self.atv.change_x = self.atv.change_x + DELTA_SPEED
         elif key == arcade.key.F:
             self.set_fullscreen(not self.fullscreen)
