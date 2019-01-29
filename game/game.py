@@ -6,6 +6,9 @@ from .visor import Visor
 DELTA_SPEED = 0.05
 INIT_SCALE = 0.1
 
+MOVEMENT_MULTIPLIER = 0.1
+DEAD_ZONE = 0.05
+
 
 class Game(arcade.Window):
     """ Main application class. """
@@ -21,6 +24,14 @@ class Game(arcade.Window):
         self.visor = None
         self.debug = debug_mode
 
+        joysticks = arcade.get_joysticks()
+        if joysticks:
+            self.joystick = joysticks[0]
+            self.joystick.open()
+        else:
+            print("There are no Joysticks")
+            self.joystick = None
+
     def setup(self):
         # Set up your game here
         init_pos_x = self.width * 0.6
@@ -33,8 +44,17 @@ class Game(arcade.Window):
 
     def update(self, delta_time):
         """ All the logic to move, and the game logic goes here. """
+        self.update_joystick()
         self.docking_system.update()
         self.atv.update()
+
+    def update_joystick(self):
+        if self.joystick:
+            # Set a "dead zone" to prevent drive from a centered joystick
+            if abs(self.joystick.x) > DEAD_ZONE:
+                self.atv.change_x += self.joystick.x * MOVEMENT_MULTIPLIER
+            if abs(self.joystick.y) > DEAD_ZONE:
+                self.atv.change_y += self.joystick.y * MOVEMENT_MULTIPLIER
 
     def on_draw(self):
         """ Render the screen. """
