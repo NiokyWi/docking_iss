@@ -39,7 +39,7 @@ class Game(arcade.Window):
     def on_draw(self):
         """ Render the screen. """
         arcade.start_render()
-        # self.atv.draw()
+        self.atv.draw()
         self.visor.draw()
         self.drawState()
         if self.debug:
