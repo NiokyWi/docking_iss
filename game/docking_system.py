@@ -22,18 +22,22 @@ class DockingSystem:
         self.is_docking_complete = False
 
     def update(self):
-        self.atv_approach_control()
-        if self.is_target_hit():
+        self.update_approach()
+        if self.is_initialising:
+            self.update_initialisation()
+        elif self.is_target_hit():
             self.dock()
-        elif self.is_initialising:
-            if self.is_initialized():
-                self.is_initialising = False
-                self.is_initialised = True
-                self.atv.stop()
         elif self.outside_window():
+            self.is_initialising = True
             self.atv.reinitialisation(self.init_scale, self.init_pos_x, self.init_pos_y, INIT_DELTA_TIME)
 
-    def atv_approach_control(self):
+    def update_initialisation(self):
+        if self.is_initialized():
+            self.is_initialising = False
+            self.is_initialised = True
+            self.atv.stop()
+
+    def update_approach(self):
         if self.is_initialised and (self.atv.change_x != 0 or self.atv.change_y != 0):
             self.is_initialised = False
             self.atv.change_z = 0.001

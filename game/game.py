@@ -11,20 +11,20 @@ class Game(arcade.Window):
     """ Main application class. """
 
     def __init__(self, width: float = 800, height: float = 600, title: str = 'Arcade Window', fullscreen: bool = False,
-                 resizable: bool = False):
+                 resizable: bool = False, debug_mode=False):
         super().__init__(width, height, title, fullscreen, resizable)
         arcade.set_background_color(arcade.color.BLACK)
         self.atv = None
         self.docking_system = None
         self.visor = None
-        self.debug = True
+        self.debug = debug_mode
 
     def setup(self):
         # Set up your game here
         init_pos_x = self.width * 0.6
         init_pos_y = self.height * 0.6
         init_scale = 0.1
-        self.atv = ATV(scale =init_scale, center_x=init_pos_x, center_y=init_pos_y)
+        self.atv = ATV(scale=init_scale, center_x=init_pos_x, center_y=init_pos_y)
         self.docking_system = DockingSystem(self, self.atv, init_scale, init_pos_x, init_pos_y)
         self.visor = Visor(self.width, self.height)
 
@@ -37,20 +37,24 @@ class Game(arcade.Window):
         """ Render the screen. """
         arcade.start_render()
         self.atv.draw()
-        arcade.draw_point(self.atv.target_pos_x, self.atv.target_pos_y, arcade.color.BLUE, 10)
         self.visor.draw()
-        self.drawDebug()
         self.drawState()
 
-    def drawDebug(self):
         if self.debug:
-            scale, position, velocity, is_initialised, is_initialising, is_dock, is_on_target = self.docking_system.get_properties()
-            arcade.draw_text("On target: " + str(is_on_target), 50, 95, arcade.color.WHITE, 12)
-            arcade.draw_text("Initialised: " + str(is_initialised), 50, 80, arcade.color.WHITE, 12)
-            arcade.draw_text("Initialising: " + str(is_initialising), 50, 65, arcade.color.WHITE, 12)
-            arcade.draw_text("Docked: " + str(is_dock), 50, 50, arcade.color.WHITE, 12)
-            arcade.draw_text("Scale: " + str(scale), 50, 35, arcade.color.WHITE, 12)
-            arcade.draw_text("Position: " + str(position), 50, 20, arcade.color.WHITE, 12)
+            self.drawDebug()
+
+    def drawDebug(self):
+        arcade.draw_point(self.atv.target_pos_x, self.atv.target_pos_y, arcade.color.BLUE, 10)
+        arcade.draw_circle_outline(self.atv.target_pos_x, self.atv.target_pos_y, self.atv.target_radius,
+                                   arcade.color.BLUE, 5)
+        scale, position, velocity, is_initialised, is_initialising, is_docking_complete, is_on_target = \
+            self.docking_system.get_properties()
+        arcade.draw_text("On target: " + str(is_on_target), 50, 95, arcade.color.WHITE, 12)
+        arcade.draw_text("Initialised: " + str(is_initialised), 50, 80, arcade.color.WHITE, 12)
+        arcade.draw_text("Initialising: " + str(is_initialising), 50, 65, arcade.color.WHITE, 12)
+        arcade.draw_text("Docked: " + str(is_docking_complete), 50, 50, arcade.color.WHITE, 12)
+        arcade.draw_text("Scale: " + str(scale), 50, 35, arcade.color.WHITE, 12)
+        arcade.draw_text("Position: " + str(position), 50, 20, arcade.color.WHITE, 12)
 
     def drawState(self):
         _, _, _, _, is_initialising, is_dock, _ = self.docking_system.get_properties()
