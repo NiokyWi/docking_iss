@@ -19,7 +19,8 @@ python3.6 docking_iss/main.py
 ## Development
 
 ### Setup the RaspberryPi
-The game is supposed to be ran on a RaspberryPi. Following needs to be done the first time only. On Raspbian lite, following command might be run:
+The game is supposed to be ran on a RaspberryPi. Python Arcade library is used for this game and such library requires python 3.6 or later. 
+On Raspbian lite, first time only, run following commands:
 
 1- Requirements setup:
 ```bash

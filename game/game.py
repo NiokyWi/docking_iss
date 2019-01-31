@@ -4,9 +4,9 @@ from .docking_system import DockingSystem
 from .instruments import Instruments
 
 DELTA_SPEED = 0.05
-INIT_SCALE = 0.1
+INIT_SCALE = 0.05
 
-MOVEMENT_MULTIPLIER = 0.1
+MOVEMENT_MULTIPLIER = 0.05
 DEAD_ZONE = 0.05
 
 
@@ -54,50 +54,23 @@ class Game(arcade.Window):
         arcade.start_render()
         self.atv.draw()
         self.instruments.draw()
-        self.drawState()
-        if self.debug:
-            self.drawDebug()
 
     def update_joystick(self):
         if self.joystick:
             # Set a "dead zone" to prevent drive from a centered joystick
             if abs(self.joystick.x) > DEAD_ZONE:
-                self.atv.change_x += self.joystick.x * MOVEMENT_MULTIPLIER
+                self.atv.acc_x = self.joystick.x * MOVEMENT_MULTIPLIER
             if abs(self.joystick.y) > DEAD_ZONE:
-                self.atv.change_y -= self.joystick.y * MOVEMENT_MULTIPLIER
-
-    def drawDebug(self):
-        arcade.draw_point(self.atv.target_pos_x, self.atv.target_pos_y, arcade.color.BLUE, 10)
-        arcade.draw_circle_outline(self.atv.target_pos_x, self.atv.target_pos_y, self.atv.target_radius,
-                                   arcade.color.BLUE, 5)
-        scale, position, velocity, is_initialised, is_initialising, is_docking_complete, is_on_target = \
-            self.docking_system.get_properties()
-        arcade.draw_text("On target: " + str(is_on_target), 50, 95, arcade.color.WHITE, 12)
-        arcade.draw_text("Initialised: " + str(is_initialised), 50, 80, arcade.color.WHITE, 12)
-        arcade.draw_text("Initialising: " + str(is_initialising), 50, 65, arcade.color.WHITE, 12)
-        arcade.draw_text("Docked: " + str(is_docking_complete), 50, 50, arcade.color.WHITE, 12)
-        arcade.draw_text("Scale: " + str(scale), 50, 35, arcade.color.WHITE, 12)
-        arcade.draw_text("Position: " + str(position), 50, 20, arcade.color.WHITE, 12)
-
-    def drawState(self):
-        _, _, _, _, is_initialising, is_dock, _ = self.docking_system.get_properties()
-        if is_initialising:
-            arcade.draw_text("INITIALIZING", self.width/2, self.height / 2,
-                             arcade.color.RED, 50, align='center',
-                             anchor_x='center', anchor_y='center', rotation=0)
-        if is_dock:
-            arcade.draw_text("DOCKING COMPLETE", self.width/2, self.height / 2,
-                             arcade.color.GREEN, 50, align='center',
-                             anchor_x='center', anchor_y='center', rotation=0)
+                self.atv.acc_y = - self.joystick.y * MOVEMENT_MULTIPLIER
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
-            self.atv.change_y = self.atv.change_y + DELTA_SPEED
+            self.atv.acc_y = DELTA_SPEED
         elif key == arcade.key.DOWN:
-            self.atv.change_y = self.atv.change_y - DELTA_SPEED
+            self.atv.acc_y = - DELTA_SPEED
         elif key == arcade.key.LEFT:
-            self.atv.change_x = self.atv.change_x - DELTA_SPEED
+            self.atv.acc_x = - DELTA_SPEED
         elif key == arcade.key.RIGHT:
-            self.atv.change_x = self.atv.change_x + DELTA_SPEED
+            self.atv.acc_x = DELTA_SPEED
         elif key == arcade.key.F:
             self.set_fullscreen(not self.fullscreen)

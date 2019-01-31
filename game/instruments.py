@@ -12,18 +12,47 @@ class Instruments:
 
     def __init__(self, docking_system: DockingSystem) -> None:
         self.docking_system = docking_system
+        self.window = docking_system.window
+        self.atv = docking_system.atv
         self.color = (204, 85, 0)
 
     def update(self):
         pass
 
     def draw(self):
+        self.drawState()
+        if self.window.debug:
+            self.drawDebug()
         self.draw_visor()
 
     def draw_visor(self):
-        arcade.draw_line(self.docking_system.window.width / 2, 0,
-                         self.docking_system.window.width / 2, self.docking_system.window.height,
+        arcade.draw_line(self.window.width / 2, 0,
+                         self.window.width / 2, self.window.height,
                          self.color, 3)
-        arcade.draw_line(0, self.docking_system.window.height / 2,
-                         self.docking_system.window.width, self.docking_system.window.height/2,
+        arcade.draw_line(0, self.window.height / 2,
+                         self.window.width, self.window.height/2,
                          self.color, 3)
+
+    def drawDebug(self):
+        arcade.draw_point(self.atv.target_pos_x, self.atv.target_pos_y, arcade.color.BLUE, 10)
+        arcade.draw_circle_outline(self.atv.target_pos_x, self.atv.target_pos_y, self.atv.target_radius,
+                                   arcade.color.BLUE, 5)
+        scale, position, velocity, is_initialised, is_initialising, is_docking_complete, is_on_target = \
+            self.docking_system.get_properties()
+        arcade.draw_text("On target: " + str(is_on_target), 50, 95, arcade.color.WHITE, 12)
+        arcade.draw_text("Initialised: " + str(is_initialised), 50, 80, arcade.color.WHITE, 12)
+        arcade.draw_text("Initialising: " + str(is_initialising), 50, 65, arcade.color.WHITE, 12)
+        arcade.draw_text("Docked: " + str(is_docking_complete), 50, 50, arcade.color.WHITE, 12)
+        arcade.draw_text("Scale: " + str(scale), 50, 35, arcade.color.WHITE, 12)
+        arcade.draw_text("Position: " + str(position), 50, 20, arcade.color.WHITE, 12)
+
+    def drawState(self):
+        _, _, _, _, is_initialising, is_dock, _ = self.docking_system.get_properties()
+        if is_initialising:
+            arcade.draw_text("INITIALIZING", self.window.width/2, self.window.height / 2,
+                             arcade.color.RED, 50, align='center',
+                             anchor_x='center', anchor_y='center', rotation=0)
+        if is_dock:
+            arcade.draw_text("DOCKING COMPLETE", self.window.width/2, self.window.height / 2,
+                             arcade.color.GREEN, 50, align='center',
+                             anchor_x='center', anchor_y='center', rotation=0)
