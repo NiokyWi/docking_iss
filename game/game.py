@@ -64,7 +64,7 @@ class Game(arcade.Window):
             if abs(self.joystick.x) > DEAD_ZONE:
                 self.atv.change_x += self.joystick.x * MOVEMENT_MULTIPLIER
             if abs(self.joystick.y) > DEAD_ZONE:
-                self.atv.change_y += self.joystick.y * MOVEMENT_MULTIPLIER
+                self.atv.change_y -= self.joystick.y * MOVEMENT_MULTIPLIER
 
     def drawDebug(self):
         arcade.draw_point(self.atv.target_pos_x, self.atv.target_pos_y, arcade.color.BLUE, 10)
