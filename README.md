@@ -25,7 +25,8 @@ On Raspbian lite, first time only, run following commands:
 1- Requirements setup:
 ```bash
 sudo apt-get install build-essential checkinstall
-sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev
+sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev 
+libbz2-dev libffi-dev libjpeg-dev freeglut3-dev
 ```
 
 2- Python3.6 setup:
