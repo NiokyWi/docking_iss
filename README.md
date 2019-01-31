@@ -39,16 +39,15 @@ make -j4
 sudo make altinstall
 ```
 
-3- Next will clone the game repository locally:
+3- Clone the game repository locally:
 ```bash
 sudo apt-get install git
 git clone https://github.com/NiokyWi/docking_iss.git
 ```
 
-### Setup the game
-You first need to install required libraries. To do so, we advice using `pipenv` as follow:
+4- Install requirements:
 ```bash
-pip3 install -r requirements.txt
+pip3.6 install -r requirements.txt
 ```
 
 ### Customize the game
