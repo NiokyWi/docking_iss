@@ -1,15 +1,16 @@
-# docking_iss
+# Docking on the ISS
 This game has been designed by Nicolas Deschaux for the Délire d'Encre organisation.
 
 ## Description
+
+https://www.youtube.com/watch?v=lM7SeFqJ8M4
 
 ## Usage
 
 ### Setup
 You first need to install required libraries. To do so, we advice using `pipenv` as follow:
 ```bash
-pipenv shell
-pipenv install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Run

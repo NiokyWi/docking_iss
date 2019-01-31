@@ -1,7 +1,7 @@
 import arcade
 from .atv import ATV
 from .docking_system import DockingSystem
-from .visor import Visor
+from .instruments import Instruments
 
 DELTA_SPEED = 0.05
 INIT_SCALE = 0.1
@@ -21,7 +21,7 @@ class Game(arcade.Window):
         self.init_delta_time = init_delta_time
         self.atv = None
         self.docking_system = None
-        self.visor = None
+        self.instruments = None
         self.debug = debug_mode
 
         joysticks = arcade.get_joysticks()
@@ -40,13 +40,23 @@ class Game(arcade.Window):
         self.atv = ATV(scale=init_scale, center_x=init_pos_x, center_y=init_pos_y)
         self.docking_system = DockingSystem(self, self.atv, init_scale, init_pos_x, init_pos_y, self.scale_speed,
                                             self.init_delta_time)
-        self.visor = Visor(self.width, self.height)
+        self.instruments = Instruments(self.docking_system)
 
     def update(self, delta_time):
         """ All the logic to move, and the game logic goes here. """
         self.update_joystick()
         self.docking_system.update()
         self.atv.update()
+        self.instruments.update()
+
+    def on_draw(self):
+        """ Render the screen. """
+        arcade.start_render()
+        self.atv.draw()
+        self.instruments.draw()
+        self.drawState()
+        if self.debug:
+            self.drawDebug()
 
     def update_joystick(self):
         if self.joystick:
@@ -55,15 +65,6 @@ class Game(arcade.Window):
                 self.atv.change_x += self.joystick.x * MOVEMENT_MULTIPLIER
             if abs(self.joystick.y) > DEAD_ZONE:
                 self.atv.change_y += self.joystick.y * MOVEMENT_MULTIPLIER
-
-    def on_draw(self):
-        """ Render the screen. """
-        arcade.start_render()
-        self.atv.draw()
-        self.visor.draw()
-        self.drawState()
-        if self.debug:
-            self.drawDebug()
 
     def drawDebug(self):
         arcade.draw_point(self.atv.target_pos_x, self.atv.target_pos_y, arcade.color.BLUE, 10)
