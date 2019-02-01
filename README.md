@@ -32,9 +32,9 @@ libbz2-dev libffi-dev libjpeg-dev freeglut3-dev
 2- Python3.6 setup:
 ```bash
 sudo apt-get install python3-pip python3-dev
-wget https://www.python.org/ftp/python/3.6.0/Python-3.6.0.tgz  
-tar xvf Python-3.6.0.tgz
-cd Python-3.6.0
+wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tgz  
+tar xvf Python-3.6.8.tgz
+cd Python-3.6.8
 ./configure --enable-optimizations --with-ensurepip=install
 make -j4  
 sudo make altinstall
