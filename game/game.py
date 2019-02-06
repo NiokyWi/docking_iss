@@ -2,6 +2,7 @@ import arcade
 from .atv import ATV
 from .docking_system import DockingSystem
 from .instruments import Instruments
+import timeit
 
 DELTA_SPEED = 0.05
 INIT_SCALE = 0.05
@@ -23,6 +24,8 @@ class Game(arcade.Window):
         self.docking_system = None
         self.instruments = None
         self.debug = debug_mode
+        self.time = timeit.default_timer()
+        self.fps = None
 
         joysticks = arcade.get_joysticks()
         if joysticks:
@@ -44,10 +47,16 @@ class Game(arcade.Window):
 
     def update(self, delta_time):
         """ All the logic to move, and the game logic goes here. """
+        self.update_fps()
         self.update_joystick()
         self.docking_system.update()
         self.atv.update()
         self.instruments.update()
+
+    def update_fps(self):
+        new_time = timeit.default_timer()
+        self.fps = 1 / (new_time - self.time)
+        self.time = new_time
 
     def on_draw(self):
         """ Render the screen. """

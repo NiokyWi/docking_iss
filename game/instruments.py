@@ -1,5 +1,6 @@
 import arcade
 from .docking_system import DockingSystem
+import numpy as np
 
 
 class Instruments:
@@ -15,6 +16,9 @@ class Instruments:
         self.window = docking_system.window
         self.atv = docking_system.atv
         self.color = (204, 85, 0)
+
+    def setup(self):
+        self.draw_visor()
 
     def update(self):
         pass
@@ -39,6 +43,7 @@ class Instruments:
                                    arcade.color.BLUE, 5)
         scale, position, velocity, is_initialised, is_initialising, is_docking_complete, is_on_target = \
             self.docking_system.get_properties()
+        arcade.draw_text("Fps: " + str(np.round(self.window.fps)), 50, 110, arcade.color.WHITE, 12)
         arcade.draw_text("On target: " + str(is_on_target), 50, 95, arcade.color.WHITE, 12)
         arcade.draw_text("Initialised: " + str(is_initialised), 50, 80, arcade.color.WHITE, 12)
         arcade.draw_text("Initialising: " + str(is_initialising), 50, 65, arcade.color.WHITE, 12)
