@@ -46,23 +46,32 @@ class Game(arcade.Window):
         self.instruments = Instruments(self.docking_system)
 
     def update(self, delta_time):
+        time_update_in = timeit.default_timer()
         """ All the logic to move, and the game logic goes here. """
         self.update_fps()
         self.update_joystick()
         self.docking_system.update()
         self.atv.update()
         self.instruments.update()
+        print("Update dt: " + str(timeit.default_timer() - time_update_in))
+
+    def on_draw(self):
+        time_drawing_in = timeit.default_timer()
+        """ Render the screen. """
+        arcade.start_render()
+        time_start_render = timeit.default_timer()
+        self.atv.draw()
+        time_atv = timeit.default_timer()
+        self.instruments.draw()
+        time_instrument = timeit.default_timer()
+        print("Start render dt: " + str(time_start_render - time_drawing_in))
+        print("Drawing ATV dt: " + str(time_atv - time_start_render))
+        print("Drawing Instrument dt: " + str(time_instrument - time_atv))
 
     def update_fps(self):
         new_time = timeit.default_timer()
         self.fps = 1 / (new_time - self.time)
         self.time = new_time
-
-    def on_draw(self):
-        """ Render the screen. """
-        arcade.start_render()
-        self.atv.draw()
-        self.instruments.draw()
 
     def update_joystick(self):
         if self.joystick:

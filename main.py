@@ -10,7 +10,7 @@ BONUS:
 - set difficulties levels
 '''
 
-FULLSCREEN = False
+FULLSCREEN = True
 DEBUG_MODE = True
 SCALE_SPEED = 0.0005
 INIT_DELTA_TIME = 5

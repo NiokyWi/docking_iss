@@ -1,6 +1,7 @@
 import arcade
 from .docking_system import DockingSystem
 import numpy as np
+import timeit
 
 
 class Instruments:
@@ -24,10 +25,17 @@ class Instruments:
         pass
 
     def draw(self):
+        time_in = timeit.default_timer()
         self.drawState()
+        time_state = timeit.default_timer()
         if self.window.debug:
             self.drawDebug()
+        time_debug = timeit.default_timer()
         self.draw_visor()
+        time_visor = timeit.default_timer()
+        print("Instrument state dt: " + str(time_state - time_in))
+        print("Instrument debug dt: " + str(time_debug - time_state))
+        print("Instrument visor dt: " + str(time_visor - time_debug))
 
     def draw_visor(self):
         arcade.draw_line(self.window.width / 2, 0,
