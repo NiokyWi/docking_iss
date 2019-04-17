@@ -5,7 +5,7 @@ from .instruments import Instruments
 import timeit
 
 DELTA_SPEED = 0.05
-INIT_SCALE = 0.05
+INIT_SCALE = 0.2
 
 MOVEMENT_MULTIPLIER = 0.05
 DEAD_ZONE = 0.05

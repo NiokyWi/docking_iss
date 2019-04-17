@@ -4,7 +4,7 @@ import arcade
 class Jet:
 
     def __init__(self) -> None:
-        self.ATV_RADIUS = 2500
+        self.ATV_RADIUS = 625
         self.start_x = 0
         self.start_y = 0
         self.end_x = 0

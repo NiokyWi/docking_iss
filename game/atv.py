@@ -74,4 +74,4 @@ class ATV(ScalingSprite):
 
     @property
     def target_radius(self):
-        return 80 * self.scale
+        return 20 * self.scale
