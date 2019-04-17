@@ -11,7 +11,7 @@ from game.jet import PosXJet, NegXJet, PosYJet, NegYJet
 class ATV(ScalingSprite):
 
     def __init__(self, scale: float = 1, center_x: float = 0, center_y: float = 0):
-        filename="./game/images/lightats.jpg"
+        filename="./game/images/smallats.jpg"
         super().__init__(filename, scale, center_x, center_y)
         self.accelerations = [0, 0]
         self.jets = [PosXJet(), NegXJet(), PosYJet(), NegYJet()]
