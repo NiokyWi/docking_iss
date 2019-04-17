@@ -53,7 +53,8 @@ class Game(arcade.Window):
         self.docking_system.update()
         self.atv.update()
         self.instruments.update()
-        print("Update dt: " + str(timeit.default_timer() - time_update_in))
+        if self.debug:
+            print("Update dt: " + str(timeit.default_timer() - time_update_in))
 
     def on_draw(self):
         time_drawing_in = timeit.default_timer()
@@ -64,9 +65,10 @@ class Game(arcade.Window):
         time_atv = timeit.default_timer()
         self.instruments.draw()
         time_instrument = timeit.default_timer()
-        print("Start render dt: " + str(time_start_render - time_drawing_in))
-        print("Drawing ATV dt: " + str(time_atv - time_start_render))
-        print("Drawing Instrument dt: " + str(time_instrument - time_atv))
+        if self.debug:
+            print("Start render dt: " + str(time_start_render - time_drawing_in))
+            print("Drawing ATV dt: " + str(time_atv - time_start_render))
+            print("Drawing Instrument dt: " + str(time_instrument - time_atv))
 
     def update_fps(self):
         new_time = timeit.default_timer()

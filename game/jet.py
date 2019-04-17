@@ -17,7 +17,7 @@ class Jet:
     def draw(self):
         if self.is_active:
             arcade.draw_line(self.start_x, self.start_y, self.end_x, self.end_y,
-                             arcade.color.WHITE_SMOKE, border_width=10)
+                             (178, 190, 181, 50), border_width=10)
 
     def check_activation(self, accelerations):
         pass

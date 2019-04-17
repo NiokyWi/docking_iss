@@ -33,9 +33,10 @@ class Instruments:
         time_debug = timeit.default_timer()
         self.draw_visor()
         time_visor = timeit.default_timer()
-        print("Instrument state dt: " + str(time_state - time_in))
-        print("Instrument debug dt: " + str(time_debug - time_state))
-        print("Instrument visor dt: " + str(time_visor - time_debug))
+        if self.docking_system.window.debug:
+            print("Instrument state dt: " + str(time_state - time_in))
+            print("Instrument debug dt: " + str(time_debug - time_state))
+            print("Instrument visor dt: " + str(time_visor - time_debug))
 
     def draw_visor(self):
         arcade.draw_line(self.window.width / 2, 0,
