@@ -4,7 +4,7 @@ from .atv import ATV
 import numpy as np
 
 XY_TOL = 20
-DOCKING_SCALE = 6
+DOCKING_SCALE = 1.5
 
 
 class DockingSystem:

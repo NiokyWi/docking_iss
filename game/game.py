@@ -4,10 +4,10 @@ from .docking_system import DockingSystem
 from .instruments import Instruments
 import timeit
 
-DELTA_SPEED = 0.05
-INIT_SCALE = 0.2
+DELTA_SPEED = 0.02
+INIT_SCALE = 0.05
 
-MOVEMENT_MULTIPLIER = 0.05
+MOVEMENT_MULTIPLIER = 0.0005
 DEAD_ZONE = 0.05
 
 
@@ -84,13 +84,14 @@ class Game(arcade.Window):
                 self.atv.acc_y = - self.joystick.y * MOVEMENT_MULTIPLIER
 
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.UP:
-            self.atv.acc_y = DELTA_SPEED
-        elif key == arcade.key.DOWN:
-            self.atv.acc_y = - DELTA_SPEED
-        elif key == arcade.key.LEFT:
-            self.atv.acc_x = - DELTA_SPEED
-        elif key == arcade.key.RIGHT:
-            self.atv.acc_x = DELTA_SPEED
-        elif key == arcade.key.F:
-            self.set_fullscreen(not self.fullscreen)
+        # if key == arcade.key.UP:
+        #     self.atv.acc_y = DELTA_SPEED
+        # elif key == arcade.key.DOWN:
+        #     self.atv.acc_y = - DELTA_SPEED
+        # elif key == arcade.key.LEFT:
+        #     self.atv.acc_x = - DELTA_SPEED
+        # elif key == arcade.key.RIGHT:
+        #     self.atv.acc_x = DELTA_SPEED
+        # elif key == arcade.key.F:
+        #     self.set_fullscreen(not self.fullscreen)
+        pass

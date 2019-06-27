@@ -63,10 +63,10 @@ class Instruments:
     def drawState(self):
         _, _, _, _, is_initialising, is_dock, _ = self.docking_system.get_properties()
         if is_initialising:
-            arcade.draw_text("INITIALIZING", self.window.width/2, self.window.height / 2,
+            arcade.draw_text("REINITIALISATION", self.window.width/2, self.window.height / 2,
                              arcade.color.RED, 50, align='center',
                              anchor_x='center', anchor_y='center', rotation=0)
         if is_dock:
-            arcade.draw_text("DOCKING COMPLETE", self.window.width/2, self.window.height / 2,
+            arcade.draw_text("AMARRAGE REUSSI", self.window.width/2, self.window.height / 2,
                              arcade.color.GREEN, 50, align='center',
                              anchor_x='center', anchor_y='center', rotation=0)
